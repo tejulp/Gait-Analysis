@@ -1,0 +1,4 @@
+diplegic walk
+hemiplegic walk
+normal walk
+parkinsonian walk
