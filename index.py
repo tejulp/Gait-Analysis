@@ -7,7 +7,7 @@ import numpy as np
 
 import PIL.Image as im
 
-
+#Identification of the sensor from which data is obtained
 def sanitize(string):
     pattern = re.compile(r'[A-Z\r\n]', re.M)
     _type = re.findall(pattern, string)
@@ -32,7 +32,7 @@ def reshape_into_matrix(array, cols):
         matrix = np.insert(matrix, index, array[index * cols: (index + 1) * cols], 0)
     return matrix
 
-
+#Main function - collects data from sensors and performs sanity check
 def read_serial_data(port, baud, callback):
     arduino = serial.Serial(port, timeout=0, baudrate=baud)
     print("Arduino initialized!")
@@ -62,11 +62,11 @@ def read_serial_data(port, baud, callback):
         except Exception:
             print(Exception.__traceback__)
 
-
+#Converting matrix to jpeg images for feeding into model
 def on_data_compiled(axel, press, timestamp):
     matrix = reshape_into_matrix(axel, 6)
     image = im.fromarray(matrix)
-    image.save(r'sample' + timestamp + ".tif")
+    image.save(r'sample' + timestamp + ".jpg")
     print("axel", matrix.size)
     print("press", press)
     print("timestamp", timestamp)
